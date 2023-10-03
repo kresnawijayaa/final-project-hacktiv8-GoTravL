@@ -2,7 +2,7 @@
 
 ## Team Members
 
-- Kresna Wijaya (C) (Idea)
+- Kresna Wijaya (Lead) (Idea)
 - Alif Dzikri Nur
 - Ami Miftahul Situmorang
 - David Wijaya
