@@ -6,7 +6,7 @@ import RNPickerSelect from "react-native-picker-select";
 import { useDispatch } from "react-redux";
 import { updateLocations } from "../store/actionCreator";
 
-const GOOGLE_API_KEY = "AIzaSyAGbMR0JMGpMMy6HmuFJ5YID7Ne0WSOOeM";
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 
 async function getDistanceBetweenLocations(origin, destination) {
   const apiUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin.lat},${origin.lng}&destinations=${destination.lat},${destination.lng}&key=${GOOGLE_API_KEY}`;
@@ -54,29 +54,41 @@ function getOrderString(order) {
 
 function MapViewPage({ route }) {
   const [bestOrder, setBestOrder] = useState(null);
-  const [locations, setLocations] = useState([])
-  const dispatch = useDispatch()
-  const temp = []
-  const data = route.params
+  const [locations, setLocations] = useState([]);
+  const dispatch = useDispatch();
+  const temp = [];
+  const data = route.params;
   // console.log(route.params)
   data.map((el) => {
-    const tempArr = []
+    const tempArr = [];
     el.locationId.map((element) => {
-      tempArr.push({ lat: element.geometry.location.lat, lng: element.geometry.location.lng, name: element.name, id: element.id, toSend: element })
-    })
-    temp.push({ label: el.name, value: { id: el.id, data: tempArr } })
-  })
+      tempArr.push({
+        lat: element.geometry.location.lat,
+        lng: element.geometry.location.lng,
+        name: element.name,
+        id: element.id,
+        toSend: element,
+      });
+    });
+    temp.push({ label: el.name, value: { id: el.id, data: tempArr } });
+  });
   const handleChangeSelect = (send) => {
     if (send) {
-      const loc = []
-      loc.push({ name: "Hacktiv8", lat: -6.2606744, lng: 106.7791296 })
-      send.data.map(el => {
-        loc.push({ name: el.name, lat: el.lat, lng: el.lng, id: el.id, toUpdate: el.toSend })
-      })
-      setLocations(loc)
-      setBestOrder(loc)
+      const loc = [];
+      loc.push({ name: "Hacktiv8", lat: -6.2606744, lng: 106.7791296 });
+      send.data.map((el) => {
+        loc.push({
+          name: el.name,
+          lat: el.lat,
+          lng: el.lng,
+          id: el.id,
+          toUpdate: el.toSend,
+        });
+      });
+      setLocations(loc);
+      setBestOrder(loc);
     }
-  }
+  };
   // const forSend = locations.shift()
 
   // console.log(locations)
@@ -98,11 +110,10 @@ function MapViewPage({ route }) {
   //   },
   // ];
 
-
   const generateOptimalRoute = useCallback(async () => {
     try {
       if (locations.length > 0) {
-        console.log("Generating")
+        console.log("Generating");
         const startingPlace = locations[0];
         const otherPlaces = locations.slice(1);
 
@@ -128,9 +139,8 @@ function MapViewPage({ route }) {
         );
 
         setBestOrder([startingPlace, ...bestOrder]);
-        dispatch(updateLocations(bestOrder))
+        dispatch(updateLocations(bestOrder));
       }
-
     } catch (error) {
       console.error("Error:", error);
     }
@@ -178,7 +188,6 @@ function MapViewPage({ route }) {
         <View
           style={{ flex: 1, justifyContent: "center", paddingHorizontal: 20 }}
         >
-
           <RNPickerSelect
             style={{
               inputIOS: {
@@ -190,7 +199,7 @@ function MapViewPage({ route }) {
                 borderRadius: 4,
                 color: "black",
                 paddingRight: 30,
-                marginTop: 16
+                marginTop: 16,
               },
               inputAndroid: {
                 fontSize: 16,
@@ -220,7 +229,7 @@ function MapViewPage({ route }) {
                   borderRadius: 12,
                   flexDirection: "row",
                   padding: 12,
-                  marginBottom: 8
+                  marginBottom: 8,
                 }}
               >
                 <Text
@@ -232,7 +241,7 @@ function MapViewPage({ route }) {
                     fontWeight: "bold",
                   }}
                 >
-                  {index + 1}. {" "}
+                  {index + 1}.{" "}
                 </Text>
                 <View style={{ flex: 1, marginLeft: 12 }}>
                   <Text
@@ -248,10 +257,8 @@ function MapViewPage({ route }) {
                   </Text>
                 </View>
 
-
                 {/* batas disini */}
               </View>
-
             </View>
           ))}
         </View>
