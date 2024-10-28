@@ -2,10 +2,10 @@
 
 ## Team Members
 
-- Kresna Wijaya (Lead) (Idea)
-- Alif Dzikri Nur
-- Ami Miftahul Situmorang
-- David Wijaya
+- Kresna Wijaya (Lead) (Idea) ( Backend )
+- Alif Dzikri Nur ( Fullstack )
+- Ami Miftahul Situmorang ( Front End )
+- David Wijaya ( Front End )
 
 ## Description Application
 
